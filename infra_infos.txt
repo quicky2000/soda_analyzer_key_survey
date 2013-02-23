@@ -1,0 +1,4 @@
+depend:osm_diff_analyzer_cpp_if EXT_sqlite3
+CFLAGS:-Wall -g -ansi -pedantic 
+LDFLAGS:
+
