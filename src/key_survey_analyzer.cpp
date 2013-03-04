@@ -19,6 +19,7 @@
 */
 #include "key_survey_analyzer.h"
 #include "key_survey_common_api.h"
+#include "quicky_exception.h"
 #include <cstdlib>
 #include <iostream>
 #include <sstream>
@@ -48,8 +49,9 @@ namespace osm_diff_analyzer_key_survey
     std::map<std::string,std::string>::const_iterator l_iter = l_conf_parameters.find("searched_string");
     if(l_iter == l_conf_parameters.end())
       {
-	std::cout << "ERROR : missing mandatory \"searched_string\" parameter in module \"" << get_name() <<"\"" << std::endl ;
-	exit(-1);
+	std::stringstream l_stream;
+	l_stream << "ERROR : missing mandatory \"searched_string\" parameter in module \"" << get_name() <<"\"" ;
+	throw quicky_exception::quicky_runtime_exception(l_stream.str(),__LINE__,__FILE__);
       }
 
     {
@@ -90,8 +92,9 @@ namespace osm_diff_analyzer_key_survey
     m_report.open(l_complete_report_file_name.c_str());
     if(m_report.fail())
       {
-	std::cout << "ERROR : unabled to open \"" << l_complete_report_file_name << "\"" << std::endl ;
-	exit(EXIT_FAILURE);
+	std::stringstream l_stream;
+	l_stream << "ERROR : unabled to open \"" << l_complete_report_file_name << "\"" ;
+	throw quicky_exception::quicky_runtime_exception(l_stream.str(),__LINE__,__FILE__);
       }
     m_report << "<html>" << std::endl ;
     m_report << "\t<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">" << std::endl ;
@@ -104,8 +107,9 @@ namespace osm_diff_analyzer_key_survey
     m_summary_report.open(l_complete_summary_report_file_name.c_str());
     if(m_summary_report.fail())
       {
-	std::cout << "ERROR : unabled to open \"" << l_complete_summary_report_file_name << "\"" << std::endl ;
-	exit(EXIT_FAILURE);
+	std::stringstream l_stream;
+	l_stream << "ERROR : unabled to open \"" << l_complete_summary_report_file_name << "\"" ;
+	throw quicky_exception::quicky_runtime_exception(l_stream.str(),__LINE__,__FILE__);
       }
     m_summary_report << "<html>" << std::endl ;
     m_summary_report << "\t<head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\">" << std::endl ;
@@ -210,7 +214,7 @@ namespace osm_diff_analyzer_key_survey
         ++l_iter)
       {
         const osm_api_data_types::osm_core_element * const l_element = (*l_iter)->get_core_element();
-        assert(l_element);
+        if(l_element == NULL) throw quicky_exception::quicky_logic_exception("core_element should not be NULL",__LINE__,__FILE__);
 
         switch(l_element->get_core_type())
           {
@@ -224,8 +228,11 @@ namespace osm_diff_analyzer_key_survey
 	    generic_analyze<osm_api_data_types::osm_relation>(l_element,(*l_iter)->get_type());
             break;
           case osm_api_data_types::osm_core_element::INTERNAL_INVALID:
-            std::cout << "ERROR : unexpected core type value \"" << osm_api_data_types::osm_core_element::get_osm_type_str(l_element->get_core_type()) << "\"" << std::endl ;
-            exit(-1);
+	    {
+	      std::stringstream l_stream;
+	      l_stream << "ERROR : unexpected core type value \"" << osm_api_data_types::osm_core_element::get_osm_type_str(l_element->get_core_type()) << "\"" ;
+	      throw quicky_exception::quicky_logic_exception(l_stream.str(),__LINE__,__FILE__);
+	    }
             break;
           }
 

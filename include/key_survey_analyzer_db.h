@@ -21,6 +21,7 @@
 #define _KEY_SURVEY_ANALYZER_DB_H_
 
 #include "osm_api_data_types.h"
+#include "quicky_exception.h"
 #include <set>
 #include <iostream>
 #include <cassert>
@@ -46,16 +47,14 @@ namespace osm_diff_analyzer_key_survey
   template<typename T>
     bool key_survey_analyzer_db::is_interesting_id(const T & p_object)const
     {
-      std::cout << "Should never be executed" << std::endl ;
-      assert(false);
+      throw quicky_exception::quicky_logic_exception("Should never be executed",__LINE__,__FILE__);
     }
   
   //----------------------------------------------------------------------------
   template<typename T>
     void key_survey_analyzer_db::store_interesting_id(const T & p_object)
     {
-      std::cout << "Should never be executed" << std::endl ;
-      assert(false);
+      throw quicky_exception::quicky_logic_exception("Should never be executed",__LINE__,__FILE__);
     }
 
 

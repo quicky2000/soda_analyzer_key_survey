@@ -21,7 +21,7 @@
 #include "key_survey_analyzer_description.h"
 #include "key_survey_analyzer.h"
 #include "key_survey_common_api.h"
-
+#include "quicky_exception.h"
 #include <cassert>
 #include <iostream>
 
@@ -68,8 +68,15 @@ namespace osm_diff_analyzer_key_survey
   {
     void register_module(uintptr_t* p_api,uint32_t p_api_size)
     {
-      assert(p_api_size == MODULE_LIBRARY_IF_API_SIZE);
+      if(p_api_size != MODULE_LIBRARY_IF_API_SIZE)
+	{
+	  std::stringstream l_stream;
+	  l_stream << "p_api_size < MODULE_LIBRARY_IF_API_SIZE : " << p_api_size << " < " << MODULE_LIBRARY_IF_API_SIZE << ". Please use a newver version of saoda";
+	  throw quicky_exception::quicky_logic_exception(l_stream.str(),__LINE__,__FILE__);
+	}
+#ifdef DEBUG
       std::cout << "Registration of key_survey analyzer API " << std::endl ;
+#endif
       p_api[osm_diff_analyzer_if::module_library_if::GET_API_VERSION] = (uintptr_t)key_survey_wrapper::get_api_version;
       p_api[osm_diff_analyzer_if::module_library_if::GET_API_SIZE] = (uintptr_t)key_survey_wrapper::get_api_size;
       p_api[osm_diff_analyzer_if::module_library_if::GET_DESCRIPTION] = (uintptr_t)key_survey_wrapper::get_key_survey_description;

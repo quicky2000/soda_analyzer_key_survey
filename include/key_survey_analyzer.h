@@ -26,6 +26,7 @@
 #include "key_survey_stats.h"
 #include "key_survey_common_api.h"
 #include "module_configuration.h"
+#include "quicky_exception.h"
 #include <inttypes.h>
 #include <map>
 #include <fstream>
@@ -141,8 +142,9 @@ namespace osm_diff_analyzer_key_survey
       // Check if cast has been successfull
      if(l_casted_object==NULL)
         {
-          std::cout << "ERROR : invalid " << T::get_type_str() << " cast for object id " << p_object->get_id() << std::endl ;
-          exit(-1);
+          std::stringstream l_stream;
+          l_stream << "ERROR : invalid " << T::get_type_str() << " cast for object id " << p_object->get_id();
+          throw quicky_exception::quicky_logic_exception(l_stream.str(),__LINE__,__FILE__);
         }
 
      // Check if the object has still been encountered and marked as interesting ( ie its contains the searched string in its tags )
@@ -213,8 +215,12 @@ namespace osm_diff_analyzer_key_survey
               }
               break;
             case osm_api_data_types::osm_change::INTERNAL_INVALID:
-              std::cout << "ERROR : unexpected osm change value value \"" << p_change << "\"" << std::endl ;
-              exit(-1);
+            default:
+              {
+                std::stringstream l_stream;
+                l_stream << "ERROR : unexpected osm change value value \"" << p_change << "\"" ;
+                throw quicky_exception::quicky_logic_exception(l_stream.str(),__LINE__,__FILE__);
+              }
               break;
             }
 
