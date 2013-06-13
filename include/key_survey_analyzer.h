@@ -211,7 +211,7 @@ namespace osm_diff_analyzer_key_survey
                 
                 l_change_description = (p_change == osm_api_data_types::osm_change::MODIFICATION ? "Modification" : "Deletion");
                 osm_api_data_types::osm_core_element::t_osm_version l_previous_version = l_casted_object->get_version() - 1;
-                l_diff = compare(l_previous_version,*l_casted_object,l_report_detail,l_casted_object->get_user(),l_casted_object->get_user_id());
+                l_diff = (l_previous_version ? compare(l_previous_version,*l_casted_object,l_report_detail,l_casted_object->get_user(),l_casted_object->get_user_id()) : true);
               }
               break;
             case osm_api_data_types::osm_change::INTERNAL_INVALID:
