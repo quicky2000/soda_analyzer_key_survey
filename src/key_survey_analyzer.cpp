@@ -50,7 +50,7 @@ namespace osm_diff_analyzer_key_survey
     if(l_iter == l_conf_parameters.end())
       {
 	std::stringstream l_stream;
-	l_stream << "ERROR : missing mandatory \"searched_string\" parameter in module \"" << get_name() <<"\"" ;
+	l_stream << "Missing mandatory \"searched_string\" parameter in module \"" << get_name() <<"\"" ;
 	throw quicky_exception::quicky_runtime_exception(l_stream.str(),__LINE__,__FILE__);
       }
 
@@ -93,7 +93,7 @@ namespace osm_diff_analyzer_key_survey
     if(m_report.fail())
       {
 	std::stringstream l_stream;
-	l_stream << "ERROR : unabled to open \"" << l_complete_report_file_name << "\"" ;
+	l_stream << "Unabled to open \"" << l_complete_report_file_name << "\"" ;
 	throw quicky_exception::quicky_runtime_exception(l_stream.str(),__LINE__,__FILE__);
       }
     m_report << "<html>" << std::endl ;
@@ -108,7 +108,7 @@ namespace osm_diff_analyzer_key_survey
     if(m_summary_report.fail())
       {
 	std::stringstream l_stream;
-	l_stream << "ERROR : unabled to open \"" << l_complete_summary_report_file_name << "\"" ;
+	l_stream << "Unabled to open \"" << l_complete_summary_report_file_name << "\"" ;
 	throw quicky_exception::quicky_runtime_exception(l_stream.str(),__LINE__,__FILE__);
       }
     m_summary_report << "<html>" << std::endl ;
@@ -230,7 +230,7 @@ namespace osm_diff_analyzer_key_survey
           case osm_api_data_types::osm_core_element::INTERNAL_INVALID:
 	    {
 	      std::stringstream l_stream;
-	      l_stream << "ERROR : unexpected core type value \"" << osm_api_data_types::osm_core_element::get_osm_type_str(l_element->get_core_type()) << "\"" ;
+	      l_stream << "Unexpected core type value \"" << osm_api_data_types::osm_core_element::get_osm_type_str(l_element->get_core_type()) << "\"" ;
 	      throw quicky_exception::quicky_logic_exception(l_stream.str(),__LINE__,__FILE__);
 	    }
             break;

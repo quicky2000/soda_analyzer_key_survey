@@ -143,7 +143,7 @@ namespace osm_diff_analyzer_key_survey
      if(l_casted_object==NULL)
         {
           std::stringstream l_stream;
-          l_stream << "ERROR : invalid " << T::get_type_str() << " cast for object id " << p_object->get_id();
+          l_stream << "Invalid " << T::get_type_str() << " cast for object id " << p_object->get_id();
           throw quicky_exception::quicky_logic_exception(l_stream.str(),__LINE__,__FILE__);
         }
 
@@ -218,7 +218,7 @@ namespace osm_diff_analyzer_key_survey
             default:
               {
                 std::stringstream l_stream;
-                l_stream << "ERROR : unexpected osm change value value \"" << p_change << "\"" ;
+                l_stream << "Unexpected osm change value : \"" << p_change << "\"" ;
                 throw quicky_exception::quicky_logic_exception(l_stream.str(),__LINE__,__FILE__);
               }
               break;
